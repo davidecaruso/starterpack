@@ -1,0 +1,18 @@
+{
+  "name": "project-name",
+  "authors": [
+    "IM*MEDIA S.r.l."
+  ],
+  "description": "Project description",
+  "main": "",
+  "license": "MIT",
+  "homepage": "https://project.url",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
