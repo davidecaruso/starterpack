@@ -1,0 +1,13 @@
+# Folders
+/.idea/
+/.sass-cache/
+/bower_components/
+/css/
+/js/
+/node_modules/
+/vendor/
+
+# Files
+*.orig
+.DS_Store
+sass/*.css
