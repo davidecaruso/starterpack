@@ -26,7 +26,7 @@ module.exports = function (grunt) {
             },
             build: {
                 src: [
-                    "bower_components/example/example.js",
+                    // "bower_components/example/example.js",
                     "src/js/**/*.js"
                 ],
                 dest: "js/<%= pkg.name %>.min.js"
