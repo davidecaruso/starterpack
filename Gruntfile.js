@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
 
-    /// Switch between production (prod) and development (dev) environment. For production mode run: grunt --prod
+    /// Switch between production (prod) and development (dev) environment. E.g. $ grunt --environment=prod
     var production = typeof grunt.option("prod") !== "undefined";
 
     /// Print the current environment
@@ -26,7 +26,7 @@ module.exports = function (grunt) {
             },
             build: {
                 src: [
-                    "bower_components/example/example.js",
+                    // "bower_components/example/example.js",
                     "src/js/**/*.js"
                 ],
                 dest: "js/<%= pkg.name %>.min.js"
