@@ -107,9 +107,7 @@ Open the directory in the terminal. Run the `npm install` command.
 **First installation**
 
 Open the directory in the terminal. Run the command `bower init` and answer to the questions about the package's informations.
-For install a JavaScript or CSS library, run `bower install [library-name] --save-dev`. 
-
-> **Tip:** You can also install a specific version of the package running `bower install [library-name]#[version] --save-dev`. [Here](https://bower.io/docs/api/#install) the documentation.
+For install a JavaScript or CSS library, run `bower install [library-name] --save`. 
 
 **Started project**
 
