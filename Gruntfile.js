@@ -38,6 +38,11 @@ module.exports = function (grunt) {
             all: ["Gruntfile.js", "src/js/**/*.js"]
         },
 
+        /// Install and update npm & bower dependencies.
+        auto_install: {
+            local: {}
+        },
+
         /// Compile Sass to CSS using Compass
         compass: {
             compile: {
@@ -74,6 +79,10 @@ module.exports = function (grunt) {
                 files: ["src/sass/**/*.sass"],
                 tasks: ["compass"]
             },
+            autoinstall: {
+                files: ["bower.json", "package.json"],
+                tasks: ["auto_install"]
+            },
             clean: {
                 files: [".DS_Store", "**/.DS_Store"],
                 tasks: ["clean"]
@@ -87,7 +96,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-jshint");
+    grunt.loadNpmTasks('grunt-auto-install');
 
-    grunt.registerTask("default", ["uglify", "compass", "clean", "watch"]);
+    grunt.registerTask("default", ["auto_install", "uglify", "compass", "clean", "watch"]);
 
 };
