@@ -1,35 +1,45 @@
 module.exports = function (grunt) {
 
-    /// Switch between production (prod) and development (dev) environment. E.g. $ grunt --environment=prod
-    var production = typeof grunt.option("prod") !== "undefined";
-
-    /// Print the current environment
-    grunt.log.writeln((production ? "Production" : "Development").rainbow.bold);
-
     grunt.initConfig({
 
         pkg: grunt.file.readJSON("package.json"),
 
+        /// Banners
+        banners: {
+            dev: "<%= pkg.name %> <%= grunt.template.today('yyyy-mm-dd HH:MM:ss') %>",
+            dist: "/**\n" +
+            " * <%= pkg.name %>\n" +
+            " * \n" +
+            " * Copyright (c) <%= grunt.template.today('yyyy') %>, <%= pkg.author %>\n" +
+            " * Licensed under <%= pkg.license %>\n" +
+            " * \n" +
+            " * Released on <%= grunt.template.today('mmmm') %> <%= grunt.template.today('dS') %>, <%= grunt.template.today('yyyy') %>\n" +
+            " */"
+        },
+
         /// Minify javascript files with UglifyJS
         uglify: {
-            options: {
-                banner: production ?
-                        "/**\n" +
-                        " * <%= pkg.description %>\n" +
-                        " * @author <%= pkg.author %>\n" +
-                        " * @date <%= grunt.template.today('yyyy-mm-dd HH:MM:ss') %>\n" +
-                        " */\n"
-                        :
-                        "console.log('<%= pkg.name %> <%= grunt.template.today(\'yyyy-mm-dd HH:MM:ss\') %>');\n",
-                mangle: production,
-                beautify: !production
+            dev: {
+                options: {
+                    banner: "console.log('<%= banners.dev %>');",
+                    mangle: false,
+                    beautify: true
+                },
+                files: "<%= uglify.files %>"
             },
-            build: {
-                src: [
-                    // "bower_components/example/example.js",
+            dist: {
+                options: {
+                    banner: "<%= banners.dist %>",
+                    mangle: true,
+                    beautify: false
+                },
+                files: "<%= uglify.files %>"
+            },
+            files: {
+                "js/<%= pkg.name %>.min.js": [
+                    // "bower_components/example/dist/example.js",
                     "src/js/**/*.js"
-                ],
-                dest: "js/<%= pkg.name %>.min.js"
+                ]
             }
         },
 
@@ -45,8 +55,10 @@ module.exports = function (grunt) {
 
         /// Compile Sass to CSS using Compass
         compass: {
-            compile: {
+            dev: {
                 options: {
+                    banner: "/* <%= banners.dev %> */",
+                    specify: "src/sass/style.scss",
                     sassDir: "src/sass",
                     cssDir: "css",
                     imagesDir: "images",
@@ -54,10 +66,27 @@ module.exports = function (grunt) {
                     generatedImagesDir: "images/sprites",
                     relativeAssets: true,
                     require: ["compass/import-once/activate", "susy"], /// $ gem install susy
-                    environment: production ? "production" : "development",
-                    outputStyle: production ? "compressed" : "expanded",
-                    noLineComments: production,
-                    force: production
+                    environment: "development",
+                    outputStyle: "expanded",
+                    noLineComments: false,
+                    force: false
+                }
+            },
+            dist: {
+                options: {
+                    banner: "<%= banners.dist %>",
+                    specify: "src/sass/style.scss",
+                    sassDir: "src/sass",
+                    cssDir: "css",
+                    imagesDir: "images",
+                    javascriptsDir: "js",
+                    generatedImagesDir: "images/sprites",
+                    relativeAssets: true,
+                    require: ["compass/import-once/activate", "susy"], /// $ gem install susy
+                    environment: "production",
+                    outputStyle: "compressed",
+                    noLineComments: true,
+                    force: true
                 }
             }
         },
@@ -72,12 +101,12 @@ module.exports = function (grunt) {
                 tasks: ["default"]
             },
             js: {
-                files: "<%= uglify.build.src %>",
-                tasks: ["jshint", "uglify"]
+                files: "src/js/**/*.js",
+                tasks: ["jshint", "uglify:dev"]
             },
             sass: {
-                files: ["src/sass/**/*.sass"],
-                tasks: ["compass"]
+                files: ["src/sass/**/*.sass", "src/sass/**/*.scss"],
+                tasks: ["compass:dev"]
             },
             autoinstall: {
                 files: ["bower.json", "package.json"],
@@ -98,6 +127,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks('grunt-auto-install');
 
-    grunt.registerTask("default", ["auto_install", "uglify", "compass", "clean", "watch"]);
+    grunt.registerTask("default", ["auto_install", "uglify:dev", "compass:dev", "clean", "watch"]);
+    grunt.registerTask("deploy", ["uglify:dist", "compass:dist"]);
 
 };

@@ -8,6 +8,5 @@
 /vendor/
 
 # Files
-*.orig
 .DS_Store
 sass/*.css
