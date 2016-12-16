@@ -136,6 +136,6 @@
 @mixin adjust-font($to-size, $line-height, $from-size: $base-font-size) {
 
     @include output-rhythm(font-size, convert-length($to-size, $rhythm-unit, $from-size));
-    @include output-rhythm(line-height, convert-length($line-height, $rhythm-unit, $from-size));
+    @include output-rhythm(line-height, convert-length($line-height, $rhythm-unit, $to-size));
 
 }

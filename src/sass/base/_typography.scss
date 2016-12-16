@@ -29,6 +29,6 @@ body {
     @extend %regular;
 
     @include mobile {
-        @include adjust-font-size-to(10px);
+        @include adjust-font(10px);
     }
 }
