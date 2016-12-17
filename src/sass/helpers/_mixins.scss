@@ -100,42 +100,16 @@
 }
 
 /*
- * Mixin for centering both horizontally and vertically
- * @param $reset: Get the initial behaviour
- */
-@mixin center($reset: false) {
-
-    @if $reset {
-        @include stretch(initial, initial, initial, initial);
-        @include translate(0, 0);
-        position: static;
-    } @else {
-        @include stretch(50%, inherit, inherit, 50%);
-        @include translate(-50%, -50%);
-    }
-
-}
-
-/*
- * Mixin for cross-browser rules for clip-path rule
- * @param $clip: The clip-path property
- */
-@mixin clip-path($clip) {
-    -webkit-clip-path: $clip;
-    -moz-clip-path: $clip;
-    -ms-clip-path: $clip;
-    clip-path: $clip;
-}
-
-/*
  * Mixin for adjusting the font size
  * @param $to-size: The size of the desired font
- * @param $line-height: The desired line height
- * @param $from-size: The parent's font size
+ * @param $line-height: The desired line height (Default: auto)
+ * @param $from-size: The parent's font size (Default: $base-font-size)
  */
-@mixin adjust-font($to-size, $line-height, $from-size: $base-font-size) {
+@mixin adjust-font($to-size, $line-height: auto, $from-size: $base-font-size) {
 
     @include output-rhythm(font-size, convert-length($to-size, $rhythm-unit, $from-size));
-    @include output-rhythm(line-height, convert-length($line-height, $rhythm-unit, $to-size));
+    @if $line-height != auto {
+        @include output-rhythm(line-height, convert-length($line-height, $rhythm-unit, $to-size));
+    }
 
 }
