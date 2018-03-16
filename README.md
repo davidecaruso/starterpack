@@ -128,11 +128,9 @@ Open the directory in the terminal. Run the `composer install` command.
 
 ## Author
 
-[Davide Caruso](https://www.linkedin.com/in/davidecaruso93)
-
-
+[Davide Caruso](https://davidecaruso.github.io)
 
 
 ## License
 
-Licensed under [MIT](http://www.opensource.org/licenses/mit-license.php).
+Licensed under [MIT](https://opensource.org/licenses/mit-license.php).
